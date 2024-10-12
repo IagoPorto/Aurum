@@ -1,0 +1,14 @@
+version: '3.8'  # Usar la versión más reciente de Docker Compose
+
+services:
+  spring-core:
+    build:
+      context: ./backend/core  # Ruta al Dockerfile
+      dockerfile: Dockerfile             # Nombre del Dockerfile
+    ports:
+      - "8765:8765"                       # Mapea el puerto 8080 del contenedor al 8080 de tu máquina local
+    environment:                          # Variables de entorno si es necesario
+      SPRING_PROFILES_ACTIVE: dev        # Ejemplo de variable para activar el perfil de desarrollo
+    volumes:                              # Montar volumenes si necesitas persistencia
+      - ./backend/core:/app       # Esto permite que los cambios se reflejen en tiempo real
+
