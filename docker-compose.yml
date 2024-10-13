@@ -1,13 +1,33 @@
-version: '3.8'  # Usar la versión más reciente de Docker Compose
+version: '3.8'
 
 services:
   spring-core:
     build:
-      context: ./backend/core/aurum-core  # Ruta al Dockerfile
-      dockerfile: Dockerfile                # Nombre del Dockerfile
+      context: ./backend/core/aurum-core  # Path to the app's Dockerfile
+      dockerfile: Dockerfile              # Name of the app's Dockerfile
     ports:
-      - "8765:8765"                        # Mapea el puerto 8765 del contenedor al 8765 de tu máquina local
-    environment:                          # Variables de entorno si es necesario
-      SPRING_PROFILES_ACTIVE: dev         # Ejemplo de variable para activar el perfil de desarrollo
-    volumes:                              # Montar volúmenes para persistencia
-      - ./backend/core/aurum-core/src:/app/src  # Solo monta el directorio src
+      - "8765:8765"                       # Expose port 8765 for the app
+    environment:
+      SPRING_PROFILES_ACTIVE: dev         # Development profile
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/aurumdb   # Connection URL to the DB in the 'db' container
+      SPRING_DATASOURCE_USERNAME: aurumuser                      # Database username
+      SPRING_DATASOURCE_PASSWORD: aurumpassword                  # Database password
+    depends_on:
+      - db                                # Ensure that the 'db' container is running before the app starts
+#volumes:
+     # - ./backend/core/aurum-core:/app/src  # Montar los archivos fuente (sin sobreescribir el JAR)
+ 
+  db:
+    image: postgres:17                    # Official PostgreSQL image version 17
+    ports:
+      - "7654:5432"                       # Map local port 7654 to container's port 5432 (PostgreSQL port)
+    environment:
+      POSTGRES_DB: aurumdb                # Name of the database
+      POSTGRES_USER: aurumuser            # Database user
+      POSTGRES_PASSWORD: aurumpassword    # Database user's password
+    volumes:
+      - postgres_data:/var/lib/postgresql/data  # Persist database data in a Docker volume
+      - ./db:/docker-entrypoint-initdb.d        # Folder for initial SQL scripts
+
+volumes:
+  postgres_data:                           # Volume to store the database data

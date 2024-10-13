@@ -1,8 +1,25 @@
-FROM amazoncorretto:23-jdk
+FROM amazoncorretto:23-alpine3.20-full
 
 WORKDIR /app
 
-COPY ./target/aurum-core-0.0.1-SNAPSHOT.jar /app/app.jar
+# Install required tools
+RUN apk add --no-cache \
+    bash \
+    tar \
+    unzip
+
+COPY mvnw ./
+COPY .mvn .mvn
+COPY src ./src
+COPY pom.xml ./
+
+RUN ls -l
+
+# Run Maven package command and execute tests
+RUN ./mvnw clean package
+
+# Copy the jar to the final image
+COPY target/*.jar app.jar
 
 EXPOSE 8765
 
