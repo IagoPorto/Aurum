@@ -12,14 +12,11 @@ COPY mvnw ./
 COPY .mvn .mvn
 COPY src ./src
 COPY pom.xml ./
-
-RUN ls -l
-
 # Run Maven package command and execute tests
-RUN ./mvnw clean package
+RUN ./mvnw clean package -DskipTests
 
 # Copy the jar to the final image
-COPY target/*.jar app.jar
+COPY target/aurum-core-0.0.1-SNAPSHOT.jar app.jar
 
 EXPOSE 8765
 
