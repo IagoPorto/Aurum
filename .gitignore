@@ -17,3 +17,5 @@ buildNumber.properties
 .classpath
 #logo
 logo/AurumLogo.webp
+#notes
+notes.txt
