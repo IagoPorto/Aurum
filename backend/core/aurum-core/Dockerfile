@@ -18,6 +18,6 @@ RUN ./mvnw clean package -DskipTests
 # Copy the jar to the final image
 COPY target/aurum-core-0.0.1-SNAPSHOT.jar app.jar
 
-EXPOSE 8765
+EXPOSE 8080
 
 ENTRYPOINT ["java", "-jar", "app.jar"]

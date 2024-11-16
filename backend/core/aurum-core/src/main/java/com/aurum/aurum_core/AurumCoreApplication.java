@@ -7,7 +7,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class AurumCoreApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(AurumCoreApplication.class, args);
+		SpringApplication.run(AurumCoreApplication.class, args);   
 	}
 
 }

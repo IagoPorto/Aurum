@@ -6,7 +6,7 @@ services:
       context: ./backend/core/aurum-core  # Path to the app's Dockerfile
       dockerfile: Dockerfile              # Name of the app's Dockerfile
     ports:
-      - "8765:8765"                       # Expose port 8765 for the app
+      - "8080:8765"                       # Expose port 8765 for the app
     environment:
       SPRING_PROFILES_ACTIVE: dev         # Development profile
       SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/aurumdb   # Connection URL to the DB in the 'db' container
